@@ -9,12 +9,12 @@ use InoOicClient\Util\ArgumentNormalizer;
 
 /**
  * Authorization request.
- * 
+ *
  * @method void setClientInfo(ClientInfo $clientInfo)
  * @method void setResponseType(string|array $responseType)
  * @method void setScope(mixed $scope)
  * @method void setState(string $state)
- * 
+ *
  * @method ClientInfo getClientInfo()
  * @method array getResponseType()
  * @method array getScope()
@@ -36,7 +36,7 @@ class Request extends AbstractEntity
 
     /**
      * Constructor.
-     * 
+     *
      * @param ClientInfo $clientInfo
      * @param string $responseType
      * @param string $scope
@@ -49,7 +49,7 @@ class Request extends AbstractEntity
         $this->setResponseType($responseType);
         $this->setScope($scope);
         $this->setState($state);
-        
+
         $this->fromArray($extraParams);
     }
 

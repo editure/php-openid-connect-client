@@ -31,4 +31,11 @@ class Param
     const REFRESH_TOKEN = 'refresh_token';
 
     const ID_TOKEN = 'id_token';
+
+    const EXPIRES_ON = 'expires_on';
+
+    const RESOURCE = 'resource';
+
+    const SCOPE = 'scope';
+
 }

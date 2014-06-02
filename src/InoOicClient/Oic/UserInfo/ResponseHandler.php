@@ -35,22 +35,22 @@ class ResponseHandler extends AbstractResponseHandler
 
     /**
      * Constructor.
-     * 
+     *
      * @param Coder $jsonCoder
      * @param ResponseFactoryInterface $responseFactory
      * @param ErrorFactoryInterface $errorFactory
      */
-    public function __construct(Coder $jsonCoder = null, ResponseFactoryInterface $responseFactory = null, 
+    public function __construct(Coder $jsonCoder = null, ResponseFactoryInterface $responseFactory = null,
         ErrorFactoryInterface $errorFactory = null)
     {
         if (null !== $jsonCoder) {
             $this->setJsonCoder($jsonCoder);
         }
-        
+
         if (null !== $responseFactory) {
             $this->setResponseFactory($responseFactory);
         }
-        
+
         if (null !== $errorFactory) {
             $this->setErrorFactory($errorFactory);
         }
@@ -91,7 +91,7 @@ class ResponseHandler extends AbstractResponseHandler
 
     /**
      * Parses the HTTP response from a userinfo request.
-     * 
+     *
      * @param Http\Response $httpResponse
      * @throws HttpAuthenticateException
      * @throws HttpErrorStatusException
@@ -101,33 +101,33 @@ class ResponseHandler extends AbstractResponseHandler
     public function handleResponse(Http\Response $httpResponse)
     {
         if (! $httpResponse->isSuccess()) {
-            
+
             $statusCode = $httpResponse->getStatusCode();
             if (401 === $statusCode && ($authenticateHeader = $httpResponse->getHeaders()
                 ->get($this->wwwAuthenticateHeaderName)
                 ->current())) {
-                
+
                 $params = $this->parseAuthenticateHeaderValue($authenticateHeader->getFieldValue());
                 if (isset($params['error'])) {
                     $this->setError($this->getErrorFactory()
                         ->createErrorFromArray($params));
                     return;
                 }
-                
+
                 throw new HttpAuthenticateException(
-                    sprintf("Missing error information in WWW-Authenticate header: %s", 
+                    sprintf("Missing error information in WWW-Authenticate header: %s",
                         $authenticateHeader->getFieldValue()));
             }
-            
+
             throw new HttpErrorStatusException(sprintf("Error status response from server: %s", $statusCode));
         }
-        
+
         try {
             $responseData = $this->getJsonCoder()->decode($httpResponse->getBody());
         } catch (\Exception $e) {
             throw new InvalidResponseFormatException('The HTTP response does not contain valid JSON', null, $e);
         }
-        
+
         try {
             $this->response = $this->getResponseFactory()->createResponse($responseData);
         } catch (\Exception $e) {
@@ -139,7 +139,7 @@ class ResponseHandler extends AbstractResponseHandler
 
     /**
      * Parses the "WWW-Authenticate" header and returns the corresponding params as array.
-     * 
+     *
      * @param string $rawValue
      * @throws InvalidResponseFormatException
      * @return array
@@ -147,26 +147,26 @@ class ResponseHandler extends AbstractResponseHandler
     public function parseAuthenticateHeaderValue($rawValue)
     {
         $params = array();
-        
+
         $fields = explode(' ', $rawValue, 2);
         $authScheme = $fields[0];
-        
+
         if ($this->authSchemeName !== strtolower($authScheme)) {
             throw new InvalidResponseFormatException(
                 sprintf("Invalid auth scheme in WWW-Authenticate header: %s", $authScheme));
         }
-        
+
         if (isset($fields[1])) {
             $params = $this->parseAuthenticationHeaderParams($fields[1]);
         }
-        
+
         return $params;
     }
 
 
     /**
      * Parses a key-value serialized string, for example: key1=value1, key2=value2
-     * 
+     *
      * @param string $paramsString
      * @return array
      */
@@ -183,7 +183,7 @@ class ResponseHandler extends AbstractResponseHandler
             $value = str_replace('"', '', trim($keyValueParts[1]));
             $params[$key] = $value;
         }
-        
+
         return $params;
     }
 }

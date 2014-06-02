@@ -13,7 +13,7 @@ class Basic extends AbstractFlow
 
     /**
      * Returns the authorization request URI.
-     * 
+     *
      * @param string|array $scope
      * @param string $responseType
      * @return string
@@ -27,7 +27,7 @@ class Basic extends AbstractFlow
 
     /**
      * Returns the authorization code received from the server after successful user login.
-     * 
+     *
      * @return string
      */
     public function getAuthorizationCode()
@@ -39,7 +39,7 @@ class Basic extends AbstractFlow
 
     /**
      * Requests the server for access token and returns it.
-     * 
+     *
      * @param string $authorizationCode
      * @return string
      */
@@ -53,7 +53,7 @@ class Basic extends AbstractFlow
 
     /**
      * Requests the server for user info based on the provided token and returns the claims in the response.
-     * 
+     *
      * @param string $accessToken
      * @return array
      */
@@ -70,7 +70,7 @@ class Basic extends AbstractFlow
      * - retrieves the authorization code
      * - retrieves the access token
      * - retrieves user info
-     * 
+     *
      * @return array
      */
     public function process()
@@ -81,14 +81,14 @@ class Basic extends AbstractFlow
             throw new Exception\AuthorizationException(
                 sprintf("Exception during authorization: [%s] %s", get_class($e), $e->getMessage()), null, $e);
         }
-        
+
         try {
             $accessToken = $this->getAccessToken($authorizationCode);
         } catch (\Exception $e) {
             throw new Exception\TokenRequestException(
                 sprintf("Exception during token request: [%s] %s", get_class($e), $e->getMessage()), null, $e);
         }
-        
+
         try {
             return $this->getUserInfo($accessToken);
         } catch (\Exception $e) {
@@ -100,7 +100,7 @@ class Basic extends AbstractFlow
 
     /**
      * Creates authorization request.
-     * 
+     *
      * @param string|array $scope
      * @param string|array $responseType
      * @return Authorization\Request
@@ -113,7 +113,7 @@ class Basic extends AbstractFlow
 
     /**
      * Creates token request.
-     * 
+     *
      * @param string $authorizationCode
      * @return Token\Request
      */
@@ -123,14 +123,13 @@ class Basic extends AbstractFlow
         $tokenRequest->setClientInfo($this->getClientInfo());
         $tokenRequest->setCode($authorizationCode);
         $tokenRequest->setGrantType('authorization_code');
-        
         return $tokenRequest;
     }
 
 
     /**
      * Creates user info request.
-     * 
+     *
      * @param string $accessToken
      * @return UserInfo\Request
      */
@@ -139,7 +138,7 @@ class Basic extends AbstractFlow
         $userInfoRequest = new UserInfo\Request();
         $userInfoRequest->setClientInfo($this->getClientInfo());
         $userInfoRequest->setAccessToken($accessToken);
-        
+
         return $userInfoRequest;
     }
 }

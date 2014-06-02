@@ -29,35 +29,36 @@ class Generator
      */
     public function createAuthorizationRequestUri(Request $request)
     {
-        
+
         /* @var $clientInfo \InoOicClient\Client\ClientInfo */
         $clientInfo = $request->getClientInfo();
         if (! $clientInfo) {
             throw new \RuntimeException('Missing client info in request');
         }
-        
+
         if (($endpointUri = $clientInfo->getAuthorizationEndpoint()) === null) {
             throw new Exception\MissingEndpointException('No endpoint specified');
         }
-        
+
         $uri = new Uri($endpointUri);
-        
+
         $params = array(
             Param::CLIENT_ID => $clientInfo->getClientId(),
             Param::REDIRECT_URI => $clientInfo->getRedirectUri(),
             Param::RESPONSE_TYPE => $this->arrayToSpaceDelimited($request->getResponseType()),
             Param::SCOPE => $this->arrayToSpaceDelimited($request->getScope()),
-            Param::STATE => $request->getState()
+            Param::STATE => $request->getState(),
+            Param::RESOURCE => $clientInfo->getResource(),
         );
-        
+
         foreach ($params as $name => $value) {
             if (in_array($name, $this->requiredParams) && empty($value)) {
                 throw new Exception\MissingFieldException($name);
             }
         }
-        
+
         $uri->setQuery($params);
-        
+
         return $uri->toString();
     }
 

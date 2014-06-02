@@ -25,4 +25,7 @@ class Param
     const ERROR_DESCRIPTION = 'error_description';
 
     const ERROR_URI = 'error_uri';
+
+    const RESOURCE = 'resource';
+
 }

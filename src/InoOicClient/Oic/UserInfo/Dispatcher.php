@@ -67,7 +67,7 @@ class Dispatcher extends AbstractHttpRequestDispatcher
 
     /**
      * Sends a userinfo request and returns the response.
-     * 
+     *
      * @param Request $request
      * @param Http\Request $httpRequest
      * @throws HttpRequestBuilderException
@@ -82,17 +82,17 @@ class Dispatcher extends AbstractHttpRequestDispatcher
         } catch (\Exception $e) {
             throw new HttpRequestBuilderException(sprintf("Invalid request: [%s] %s", get_class($e), $e->getMessage()));
         }
-        
+
         $httpResponse = $this->sendHttpRequest($httpRequest);
-        
+
         $responseHandler = $this->getResponseHandler();
         $responseHandler->handleResponse($httpResponse);
         if ($responseHandler->isError()) {
             throw new ErrorResponseException($responseHandler->getError());
         }
-        
+
         $response = $responseHandler->getResponse();
-        
+
         return $response;
     }
 }

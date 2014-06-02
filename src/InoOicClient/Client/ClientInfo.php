@@ -8,7 +8,7 @@ use InoOicClient\Oic\Authorization\Param;
 
 /**
  * Client information container.
- * 
+ *
  * @method void setClientId(string $clientId)
  * @method void setRedirectUri(string $redirectUri)
  * @method void setAuthenticationInfo(AuthenticationInfo $authentication)
@@ -17,7 +17,7 @@ use InoOicClient\Oic\Authorization\Param;
  * @method void setAuthorizationEndpoint(string $authorizationEndpoint)
  * @method void setTokenEndpoint(string $tokenEndpoint)
  * @method void setUserInfoEndpoint(stirng $userInfoEndpoint)
- * 
+ *
  * @method string getClientId()
  * @method string getRedirectUri()
  * @method AuthenticationInfo getAuthenticationInfo()
@@ -45,12 +45,14 @@ class ClientInfo extends AbstractEntity
     protected $allowedProperties = array(
         Param::CLIENT_ID,
         Param::REDIRECT_URI,
+        Param::RESPONSE_TYPE,
         self::AUTHENTICATION_INFO,
         self::NAME,
         self::DESCRIPTION,
         self::AUTHORIZATION_ENDPOINT,
         self::TOKEN_ENDPOINT,
-        self::USER_INFO_ENDPOINT
+        self::USER_INFO_ENDPOINT,
+        Param::RESOURCE
     );
 
 
@@ -62,7 +64,7 @@ class ClientInfo extends AbstractEntity
             $this->setAuthenticationInfo($authenticationInfo);
             unset($properties[self::AUTHENTICATION_INFO]);
         }
-        
+
         parent::fromArray($properties);
     }
 }

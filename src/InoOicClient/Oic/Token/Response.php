@@ -7,13 +7,13 @@ use InoOicClient\Entity\AbstractEntity;
 
 /**
  * Token response.
- * 
+ *
  * @method void setAccessToken(string $accessToken)
  * @method void setTokenType(string $tokenType)
  * @method void setRefreshToken(string $refreshToken)
  * @method void setExpiresIn(integer $expiresIn)
  * @method void setIdToken(mixed $idToken) not implemented
- * 
+ *
  * @method string getAccessToken()
  * @method string getTokenType()
  * @method string getRefreshToken()
@@ -28,6 +28,9 @@ class Response extends AbstractEntity
         Param::TOKEN_TYPE,
         Param::REFRESH_TOKEN,
         Param::EXPIRES_IN,
-        Param::ID_TOKEN
+        Param::ID_TOKEN,
+        Param::EXPIRES_ON,
+        Param::RESOURCE,
+        Param::SCOPE
     );
 }
