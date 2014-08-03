@@ -38,4 +38,6 @@ class Param
 
     const SCOPE = 'scope';
 
+    const NOT_BEFORE = 'not_before';
+
 }

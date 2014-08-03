@@ -31,6 +31,7 @@ class Response extends AbstractEntity
         Param::ID_TOKEN,
         Param::EXPIRES_ON,
         Param::RESOURCE,
+        Param::NOT_BEFORE,
         Param::SCOPE
     );
 }
