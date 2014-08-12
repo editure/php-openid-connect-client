@@ -141,4 +141,13 @@ class Basic extends AbstractFlow
 
         return $userInfoRequest;
     }
+
+
+    public function getTokenResponse($authorizationCode)
+    {
+        $tokenRequest = $this->createTokenRequest($authorizationCode);
+        $tokenResponse = $this->getTokenDispatcher()->sendTokenRequest($tokenRequest);
+        return $tokenResponse;
+    }
+
 }
