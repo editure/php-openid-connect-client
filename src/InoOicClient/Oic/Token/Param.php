@@ -40,4 +40,7 @@ class Param
 
     const NOT_BEFORE = 'not_before';
 
+    const PWD_EXP = 'pwd_exp';
+
+
 }

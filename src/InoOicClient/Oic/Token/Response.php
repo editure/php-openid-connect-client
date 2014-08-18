@@ -32,6 +32,7 @@ class Response extends AbstractEntity
         Param::EXPIRES_ON,
         Param::RESOURCE,
         Param::NOT_BEFORE,
+        Param::PWD_EXP,
         Param::SCOPE
     );
 }
