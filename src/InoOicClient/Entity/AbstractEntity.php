@@ -27,10 +27,16 @@ abstract class AbstractEntity
      */
     protected $allowedProperties;
 
+    /**
+     * Decides if strict property mapping should be used.
+     * @var bool|true
+     */
+    protected $strict = true;
+
 
     /**
      * Returns the property mapper.
-     * 
+     *
      * @return PropertyMapperInterface
      */
     public function getPropertyMapper()
@@ -38,14 +44,14 @@ abstract class AbstractEntity
         if (null === $this->propertyMapper) {
             $this->propertyMapper = new UnderscorePropertyMapper();
         }
-        
+
         return $this->propertyMapper;
     }
 
 
     /**
      * Sets the property mapper.
-     * 
+     *
      * @param PropertyMapperInterface $propertyMapper
      */
     public function setPropertyMapper(PropertyMapperInterface $propertyMapper)
@@ -56,7 +62,7 @@ abstract class AbstractEntity
 
     /**
      * Returns all entity properties in a parameters container.
-     * 
+     *
      * @return Parameters
      */
     public function getProperties($initialize = false)
@@ -64,7 +70,7 @@ abstract class AbstractEntity
         if ($initialize || null === $this->properties) {
             $this->properties = $this->initProperties();
         }
-        
+
         return $this->properties;
     }
 
@@ -80,7 +86,7 @@ abstract class AbstractEntity
         if ($replace) {
             $this->properties = $this->initProperties();
         }
-        
+
         foreach ($properties as $name => $value) {
             $setterName = $this->createSetterName($name);
             call_user_func_array(array(
@@ -109,7 +115,7 @@ abstract class AbstractEntity
                     $getterName
                 ), array());
         }
-        
+
         return $values;
     }
 
@@ -120,11 +126,11 @@ abstract class AbstractEntity
             $propertyName = $this->getPropertyMapper()->camelCaseToProperty($matches[1]);
             return $this->getProperty($propertyName);
         }
-        
+
         if (preg_match('/set(\w+)$/', $methodName, $matches)) {
             $methodFragment = $matches[1];
             $value = $arguments[0];
-            
+
             $updateMethod = 'update' . $methodFragment;
             if (method_exists($this, $updateMethod)) {
                 $value = call_user_func_array(
@@ -135,7 +141,7 @@ abstract class AbstractEntity
                         $value
                     ));
             }
-            
+
             $propertyName = $this->getPropertyMapper()->camelCaseToProperty($methodFragment);
             return call_user_func_array(array(
                 $this,
@@ -145,7 +151,7 @@ abstract class AbstractEntity
                 $value
             ));
         }
-        
+
         throw new Exception\InvalidMethodException(sprintf("Invalid method %s::%s()", get_class($this), $methodName));
     }
 
@@ -202,13 +208,14 @@ abstract class AbstractEntity
 
     /**
      * Checks if the property is allowed and throws an exception otherwise.
-     * 
+     *
      * @param string $propertyName
      * @throws Exception\UnknownPropertyException
      */
     protected function checkAllowedProperty($propertyName)
     {
-        if (! $this->isAllowedProperty($propertyName)) {
+
+        if ( $this->strict == true && ! $this->isAllowedProperty($propertyName) ) {
             throw new Exception\UnknownPropertyException($propertyName);
         }
     }
@@ -216,7 +223,7 @@ abstract class AbstractEntity
 
     /**
      * Returns true, if the property is allowed.
-     * 
+     *
      * @param string $propertyName
      * @return boolean
      */
@@ -225,14 +232,14 @@ abstract class AbstractEntity
         if (is_array($this->allowedProperties) && ! in_array($propertyName, $this->allowedProperties)) {
             return false;
         }
-        
+
         return true;
     }
 
 
     /**
      * Initializes an empty properties container.
-     * 
+     *
      * @return Parameters
      */
     protected function initProperties()

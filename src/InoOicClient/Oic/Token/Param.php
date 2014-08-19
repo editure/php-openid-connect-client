@@ -31,17 +31,4 @@ class Param
     const REFRESH_TOKEN = 'refresh_token';
 
     const ID_TOKEN = 'id_token';
-
-    const EXPIRES_ON = 'expires_on';
-
-    const RESOURCE = 'resource';
-
-    const SCOPE = 'scope';
-
-    const NOT_BEFORE = 'not_before';
-
-    const PWD_EXP = 'pwd_exp';
-
-    const PWD_URL = 'pwd_url';
-
 }
