@@ -42,5 +42,6 @@ class Param
 
     const PWD_EXP = 'pwd_exp';
 
+    const PWD_URL = 'pwd_url';
 
 }

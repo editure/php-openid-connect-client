@@ -33,6 +33,7 @@ class Response extends AbstractEntity
         Param::RESOURCE,
         Param::NOT_BEFORE,
         Param::PWD_EXP,
+        Param::PWD_URL,
         Param::SCOPE
     );
 }
