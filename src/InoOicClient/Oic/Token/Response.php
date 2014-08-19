@@ -23,6 +23,8 @@ use InoOicClient\Entity\AbstractEntity;
 class Response extends AbstractEntity
 {
 
+    protected $strict = false;
+
     protected $allowedProperties = array(
         Param::ACCESS_TOKEN,
         Param::TOKEN_TYPE,
