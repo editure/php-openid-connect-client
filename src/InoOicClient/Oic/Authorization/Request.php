@@ -25,6 +25,8 @@ class Request extends AbstractEntity
 
     const CLIENT_INFO = 'client_info';
 
+    protected $strict = false;
+
     protected $allowedProperties = array(
         self::CLIENT_INFO,
         Param::RESPONSE_TYPE,

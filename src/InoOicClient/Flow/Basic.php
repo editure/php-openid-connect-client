@@ -18,9 +18,9 @@ class Basic extends AbstractFlow
      * @param string $responseType
      * @return string
      */
-    public function getAuthorizationRequestUri($scope = 'openid', $responseType = 'code')
+    public function getAuthorizationRequestUri($scope = 'openid', $responseType = 'code', $state = null, array $extraParams = [])
     {
-        $authorizationRequest = $this->createAuthorizationRequest($scope, $responseType);
+        $authorizationRequest = $this->createAuthorizationRequest($scope, $responseType, $state, $extraParams);
         return $this->getAuthorizationDispatcher()->createAuthorizationRequestUri($authorizationRequest);
     }
 
@@ -105,9 +105,9 @@ class Basic extends AbstractFlow
      * @param string|array $responseType
      * @return Authorization\Request
      */
-    public function createAuthorizationRequest($scope = 'openid', $responseType = 'code')
+    public function createAuthorizationRequest($scope = 'openid', $responseType = 'code', $state = null, array $extraParams = [])
     {
-        return new Authorization\Request($this->getClientInfo(), $responseType, $scope);
+        return new Authorization\Request($this->getClientInfo(), $responseType, $scope, $state, $extraParams);
     }
 
 
