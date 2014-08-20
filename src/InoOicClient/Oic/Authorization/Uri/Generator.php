@@ -49,6 +49,8 @@ class Generator
             Param::SCOPE => $this->arrayToSpaceDelimited($request->getScope()),
             Param::STATE => $request->getState(),
             Param::RESOURCE => $clientInfo->getResource(),
+            "prompt" => $request->getPrompt(),
+            "login_hint" => $request->getLoginHint()
         );
 
         foreach ($params as $name => $value) {
