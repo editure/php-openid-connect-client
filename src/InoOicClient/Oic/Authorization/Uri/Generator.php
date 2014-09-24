@@ -42,16 +42,7 @@ class Generator
 
         $uri = new Uri($endpointUri);
 
-        $params = array(
-            Param::CLIENT_ID => $clientInfo->getClientId(),
-            Param::REDIRECT_URI => $clientInfo->getRedirectUri(),
-            Param::RESPONSE_TYPE => $this->arrayToSpaceDelimited($request->getResponseType()),
-            Param::SCOPE => $this->arrayToSpaceDelimited($request->getScope()),
-            Param::STATE => $request->getState(),
-            Param::RESOURCE => $clientInfo->getResource(),
-            "prompt" => $request->getPrompt(),
-            "login_hint" => $request->getLoginHint()
-        );
+        $params = $request->getRequestParams();
 
         foreach ($params as $name => $value) {
             if (in_array($name, $this->requiredParams) && empty($value)) {
@@ -65,7 +56,7 @@ class Generator
     }
 
 
-    protected function arrayToSpaceDelimited(array $list)
+    public static function arrayToSpaceDelimited(array $list)
     {
         return implode(' ', $list);
     }

@@ -27,6 +27,8 @@ class Request extends AbstractEntity
 
     protected $strict = false;
 
+    protected $extra = [];
+
     protected $allowedProperties = array(
         self::CLIENT_INFO,
         Param::RESPONSE_TYPE,
@@ -52,6 +54,8 @@ class Request extends AbstractEntity
         $this->setScope($scope);
         $this->setState($state);
 
+        $this->extra = array_keys($extraParams);
+
         $this->fromArray($extraParams);
     }
 
@@ -66,4 +70,31 @@ class Request extends AbstractEntity
     {
         return ArgumentNormalizer::StringOrArrayToArray($scope);
     }
+
+    protected function getExtraParams()
+    {
+        $params = [];
+        foreach($this->extra as $v){
+            $params[$v] = $this->getProperty($v);
+        }
+        return $params;
+    }
+
+    public function getRequestParams(){
+
+        $params = [
+            Param::CLIENT_ID => $this->getClientInfo()->getClientId(),
+            Param::REDIRECT_URI => $this->getClientInfo()->getRedirectUri(),
+            Param::RESPONSE_TYPE => Uri\Generator::arrayToSpaceDelimited($this->getResponseType()),
+            Param::SCOPE => Uri\Generator::arrayToSpaceDelimited($this->getScope()),
+            Param::STATE => $this->getState(),
+            Param::RESOURCE => $this->getClientInfo()->getResource(),
+        ];
+
+        $params = array_merge($params, $this->getExtraParams());
+
+        return $params;
+
+    }
+
 }
